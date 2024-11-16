@@ -4,7 +4,7 @@ project(toco)
 
 set(SOURCES
     src/main.cpp
-    src/lex.cpp
+    src/lexer.cpp
 )
 
 add_executable(toco ${SOURCES})

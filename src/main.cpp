@@ -1,4 +1,4 @@
-#include "lex.h"
+#include "lexer.h"
 
 #include <fstream>
 #include <sstream>
@@ -16,7 +16,11 @@ int main(int argc, char *argv[]) {
         buffer << file.rdbuf();
         file.close();
 
-        std::vector<Token> tokens = Lex(buffer.str());
+        Lexer lexer(buffer.str());
+        while (lexer.currentToken.type != TokenType::Eof) {
+            std::cout << lexer.currentToken.value << " " << lexer.currentToken.type << std::endl;
+            lexer.next();
+        }
     }
 
     return 0;
