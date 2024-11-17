@@ -1,3 +1,4 @@
+#include "builder.h"
 #include "lexer.h"
 #include "parser.h"
 
@@ -16,9 +17,10 @@ int main(int argc, char *argv[]) {
         std::stringstream buffer;
         buffer << file.rdbuf();
         file.close();
-
+    
         Lexer lexer(buffer.str());
-        Parser parser(&lexer);
+        Builder builder;
+        Parser parser(&lexer, &builder);
         parser.parse();
     }
 

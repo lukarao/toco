@@ -2,8 +2,9 @@
 
 #include <iostream> // debug
 
-Parser::Parser(Lexer *_lexer) {
+Parser::Parser(Lexer *_lexer, Builder *_builder) {
     lexer = _lexer;
+    builder = _builder;
 }
 
 void Parser::parse() {
