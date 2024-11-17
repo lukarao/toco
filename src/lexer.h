@@ -4,7 +4,7 @@
 #include <vector>
 
 enum TokenType {
-    Operator,
+    Dot,
     OpenParen,
     CloseParen,
     OpenBrace,

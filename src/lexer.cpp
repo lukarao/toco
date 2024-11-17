@@ -18,7 +18,7 @@ void Lexer::next() {
 Token Lexer::getToken() {
     while (pos != text.length()) {
         switch (text[pos]) {
-            case '.': return {std::string(1, text[pos]), TokenType::Operator, pos, pos};
+            case '.': return {std::string(1, text[pos]), TokenType::Dot, pos, pos};
             case '(': return {"(", TokenType::OpenParen, pos, pos};
             case ')': return {")", TokenType::CloseParen, pos, pos};
             case '{': return {"{", TokenType::OpenBrace, pos, pos};
@@ -96,7 +96,6 @@ Token Lexer::getToken() {
                     value += text[pos];
                     pos++;
                 }
-                //std::cout << value << "e\n";
                 pos--; // there should be a better way to fix this
                 if (value == "func") {
                     return {"func", TokenType::Keyword, start, pos};
