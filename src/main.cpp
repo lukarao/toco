@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "parser.h"
 
 #include <fstream>
 #include <sstream>
@@ -17,10 +18,8 @@ int main(int argc, char *argv[]) {
         file.close();
 
         Lexer lexer(buffer.str());
-        while (lexer.currentToken.type != TokenType::Eof) {
-            std::cout << lexer.currentToken.value << " " << lexer.currentToken.type << std::endl;
-            lexer.next();
-        }
+        Parser parser(&lexer);
+        parser.parse();
     }
 
     return 0;

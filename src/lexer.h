@@ -33,7 +33,6 @@ class Lexer {
     std::string text;
     int pos = 0;
     Token getToken();
-
     public:
         Token currentToken;
         Token nextToken;

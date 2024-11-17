@@ -3,8 +3,9 @@ cmake_minimum_required(VERSION 3.15)
 project(toco)
 
 set(SOURCES
-    src/main.cpp
     src/lexer.cpp
+    src/main.cpp
+    src/parser.cpp
 )
 
 add_executable(toco ${SOURCES})
