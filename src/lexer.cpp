@@ -98,9 +98,9 @@ Token Lexer::getToken() {
                 }
                 pos--; // there should be a better way to fix this
                 if (value == "func") {
-                    return {"func", TokenType::Keyword, start, pos};
+                    return {"func", TokenType::Func, start, pos};
                 } else if (value == "import") {
-                    return {"import", TokenType::Keyword, start, pos};
+                    return {"import", TokenType::Import, start, pos};
                 } else {
                     return {value, TokenType::Identifier, start, pos};
                 }

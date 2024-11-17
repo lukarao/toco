@@ -4,14 +4,20 @@
 #include <vector>
 
 enum TokenType {
+    // Operators
     Dot,
+    // Parentheses
     OpenParen,
     CloseParen,
+    // Braces {}
     OpenBrace,
     CloseBrace,
+    // Keywords
+    Func,
+    Import,
+
     End,
     String,
-    Keyword,
     Identifier,
     Eof
 };
