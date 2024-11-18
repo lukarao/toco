@@ -2,9 +2,9 @@
 
 #include <iostream> // debug
 
-Parser::Parser(Lexer *_lexer, Builder *_builder) {
-    lexer = _lexer;
-    builder = _builder;
+Parser::Parser(std::unique_ptr<Lexer> _lexer, std::unique_ptr<Builder> _builder) {
+    lexer = std::move(_lexer);
+    builder = std::move(_builder);
 }
 
 void Parser::parse() {

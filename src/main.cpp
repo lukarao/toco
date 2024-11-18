@@ -18,9 +18,9 @@ int main(int argc, char *argv[]) {
         buffer << file.rdbuf();
         file.close();
     
-        Lexer lexer(buffer.str());
-        Builder builder;
-        Parser parser(&lexer, &builder);
+        std::unique_ptr<Lexer> lexer = std::make_unique<Lexer>(buffer.str());
+        std::unique_ptr<Builder> builder;
+        Parser parser(std::move(lexer), std::move(builder));
         parser.parse();
     }
 

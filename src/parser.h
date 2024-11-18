@@ -3,10 +3,12 @@
 #include "builder.h"
 #include "lexer.h"
 
+#include <memory>
+
 class Parser {
-    Lexer *lexer;
-    Builder *builder;
+    std::unique_ptr<Lexer> lexer;
+    std::unique_ptr<Builder> builder;
     public:
-        Parser(Lexer *_lexer, Builder *_builder);
+        Parser(std::unique_ptr<Lexer> _lexer, std::unique_ptr<Builder> _builder);
         void parse();
 };
