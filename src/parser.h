@@ -5,10 +5,18 @@
 
 #include <memory>
 
+struct Expression {
+    std::string value;
+    int start;
+    int end;
+};
+
 class Parser {
     std::unique_ptr<Lexer> lexer;
     std::unique_ptr<Builder> builder;
     public:
         Parser(std::unique_ptr<Lexer> _lexer, std::unique_ptr<Builder> _builder);
+        Expression Parser::parseTerm();
+        Expression parseExpression(int precedence);
         void parse();
 };
