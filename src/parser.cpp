@@ -90,11 +90,15 @@ std::string Parser::parseExpression(int precedence) {
         lexer->next();
     }
     std::string left = parseTerm();
-    Token op = lexer->currentToken;
-    while (precedence < getPrecedence(op)) {
+    if (lexer->nextToken.type != TokenType::End && lexer->nextToken.type != TokenType::Eof && lexer->nextToken.type != TokenType::CloseParen &&
+        lexer->nextToken.type != TokenType::CloseBrace) {
         lexer->next();
-        std::string right = parseExpression(getPrecedence(op));
-        left = "(" + op.value + ", " + left + ", " + right + ")";
+        Token op = lexer->currentToken;
+        while (precedence < getPrecedence(op)) {
+            lexer->next();
+            std::string right = parseExpression(getPrecedence(op));
+            left = "(" + op.value + ", " + left + ", " + right + ")";
+        }
     }
     return left;
 }
