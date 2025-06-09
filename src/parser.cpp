@@ -36,8 +36,19 @@ void Parser::parse() {
         switch (lexer->currentToken.type) {
             case TokenType::Func:
                 // func def
+                break;
+            case TokenType::Import:
+                lexer->next();
+                while (lexer->currentToken.type != TokenType::End) {
+                    // consume currentToken
+                    lexer->next();
+                }
+                break;
+            case TokenType::End:
+                break;
             default:
                 parseExpression(0);
+                break;
         }
         lexer->next();
     }
