@@ -32,7 +32,7 @@ Expression Parser::parseExpression(int precedence) {
 }
 
 void Parser::parse() {
-    while (lexer->currentToken.type == TokenType::Eof) {
+    while (lexer->currentToken.type != TokenType::Eof) {
         switch (lexer->currentToken.type) {
             case TokenType::Func:
                 // func def
