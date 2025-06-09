@@ -25,6 +25,7 @@ std::string Parser::parseTerm() {
                     lexer->next();
                     // TODO: parse multiple arguments
                     std::string argument = parseExpression(0);
+                    lexer->next();
                     if (lexer->currentToken.type != TokenType::CloseParen) {
                         std::cerr << "Expected closing ) after arguments, got \"" << lexer->currentToken.value << "\" instead." << std::endl;
                         std::exit(1);
