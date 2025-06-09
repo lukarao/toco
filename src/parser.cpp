@@ -87,6 +87,12 @@ std::string Parser::parseTerm() {
             case TokenType::End:
                 lexer->next();
                 break;
+            case TokenType::CloseParen:
+                std::cerr << "Unexpected ) here." << std::endl;
+                std::exit(1);
+            case TokenType::CloseBrace:
+                std::cerr << "Unexpected } here." << std::endl;
+                std::exit(1);
         }
     }
 }
