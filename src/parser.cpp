@@ -19,6 +19,7 @@ std::string Parser::parseTerm() {
         switch (lexer->currentToken.type) {
             case TokenType::Identifier:
             {
+                std::string name = lexer->currentToken.value;
                 lexer->next();
                 if (lexer->currentToken.type == TokenType::OpenParen) { // function call
                     lexer->next();
@@ -28,6 +29,7 @@ std::string Parser::parseTerm() {
                         std::cerr << "Expected closing ) after arguments, got \"" << lexer->currentToken.value << "\" instead." << std::endl;
                         std::exit(1);
                     }
+                    return "(call, " + name + ", " + argument + ")";
                 } else {
                     // parse other expressions starting with an identifier
                 }
