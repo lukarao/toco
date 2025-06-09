@@ -64,15 +64,18 @@ std::string Parser::parseTerm() {
                     content += parseExpression(0) + ", ";
                     lexer->next();
                 }
-                return content;
+                return content + ")";
             }
             case TokenType::Import:
+            {
                 lexer->next();
+                std::string content = "(import, ";
                 while (lexer->currentToken.type != TokenType::End) {
-                    // consume currentToken
+                    content += lexer->currentToken.value;
                     lexer->next();
                 }
-                break;
+                return content + ")";
+            }
             case TokenType::String:
                 return "(string, " + lexer->currentToken.value + ")";
             case TokenType::End:
