@@ -72,6 +72,8 @@ std::string Parser::parseTerm() {
                     lexer->next();
                 }
                 break;
+            case TokenType::String:
+                return "(string, " + lexer->currentToken.value + ")";
             case TokenType::End:
                 lexer->next();
                 break;
