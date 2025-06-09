@@ -16,7 +16,7 @@ class Parser {
     std::unique_ptr<Builder> builder;
     public:
         Parser(std::unique_ptr<Lexer> _lexer, std::unique_ptr<Builder> _builder);
-        Expression Parser::parseTerm();
+        Expression parseTerm();
         Expression parseExpression(int precedence);
         void parse();
 };
