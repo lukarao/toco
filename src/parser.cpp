@@ -14,24 +14,7 @@ Parser::Parser(std::unique_ptr<Lexer> _lexer, std::unique_ptr<Builder> _builder)
     builder = std::move(_builder);
 }
 
-Expression Parser::parseTerm() {
-    switch (lexer->currentToken.type) {
-        // add term cases
-    }
-}
-
-Expression Parser::parseExpression(int precedence) {
-    Expression left = parseTerm();
-    Token op = lexer->currentToken;
-    while (precedence < getPrecedence(op)) {
-        lexer->next();
-        Expression right = parseExpression(getPrecedence(op));
-        //left = builder->binary(left, op, right);
-    }
-    return left;
-}
-
-void Parser::parse() {
+std::string Parser::parseTerm() {
     while (lexer->currentToken.type != TokenType::Eof) {
         switch (lexer->currentToken.type) {
             case TokenType::Func:
@@ -43,14 +26,14 @@ void Parser::parse() {
                     name = lexer->currentToken.value;
                     lexer->next();
                 } else {
-                    std::cerr << "Expected Identifier after Func, got \"" << lexer->currentToken.value << "\" instead.";
+                    std::cerr << "Expected Identifier after Func, got \"" << lexer->currentToken.value << "\" instead." << std::endl;
                     std::exit(1);
                 }
                 // (parse parameters)
                 // function body
-                Expression body = parseExpression(0);
-                // builder->funcdef(name, body)
-                break;
+                std::string body = parseExpression(0);
+                return "(funcdef, " + name + ", " + body + ")";
+                
             }
             case TokenType::Import:
                 lexer->next();
@@ -60,11 +43,26 @@ void Parser::parse() {
                 }
                 break;
             case TokenType::End:
-                break;
-            default:
-                parseExpression(0);
+                lexer->next();
                 break;
         }
+    }
+}
+
+std::string Parser::parseExpression(int precedence) {
+    std::string left = parseTerm();
+    Token op = lexer->currentToken;
+    while (precedence < getPrecedence(op)) {
+        lexer->next();
+        std::string right = parseExpression(getPrecedence(op));
+        left = "(" + op.value + ", " + left + ", " + right + ")";
+    }
+    return left;
+}
+
+void Parser::parse() {
+    while (lexer->currentToken.type != TokenType::Eof) {
+        std::cout << parseExpression(0) << std::endl;
         lexer->next();
     }
 }
