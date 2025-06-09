@@ -56,10 +56,16 @@ std::string Parser::parseTerm() {
             {
                 lexer->next();
                 std::string content = "(block, ";
-                while (lexer->currentToken.type != TokenType::CloseBrace) {
+                while (lexer->currentToken.type != TokenType::CloseBrace) { // not sure if i can just use while(True)
                     if (lexer->currentToken.type == TokenType::Eof) {
                         std::cerr << "Missing closing } in block." << std::endl;
                         std::exit(1);
+                    }
+                    while (lexer->currentToken.type == TokenType::End) {
+                        lexer->next();
+                    }
+                    if (lexer->currentToken.type == TokenType::CloseBrace) {
+                        break;
                     }
                     content += parseExpression(0) + ", ";
                     lexer->next();
@@ -86,9 +92,6 @@ std::string Parser::parseTerm() {
 }
 
 std::string Parser::parseExpression(int precedence) {
-    while (lexer->currentToken.type == TokenType::End) {
-        lexer->next();
-    }
     std::string left = parseTerm();
     if (lexer->nextToken.type != TokenType::End && lexer->nextToken.type != TokenType::Eof && lexer->nextToken.type != TokenType::CloseParen &&
         lexer->nextToken.type != TokenType::CloseBrace) {
@@ -105,6 +108,9 @@ std::string Parser::parseExpression(int precedence) {
 
 void Parser::parse() {
     while (lexer->currentToken.type != TokenType::Eof) {
+        while (lexer->currentToken.type == TokenType::End) {
+            lexer->next();
+        }
         std::cout << parseExpression(0) << std::endl;
         lexer->next();
     }
