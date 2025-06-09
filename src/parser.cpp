@@ -17,6 +17,21 @@ Parser::Parser(std::unique_ptr<Lexer> _lexer, std::unique_ptr<Builder> _builder)
 std::string Parser::parseTerm() {
     while (lexer->currentToken.type != TokenType::Eof) {
         switch (lexer->currentToken.type) {
+            case TokenType::Identifier:
+            {
+                lexer->next();
+                if (lexer->currentToken.type == TokenType::OpenParen) { // function call
+                    lexer->next();
+                    // TODO: parse multiple arguments
+                    std::string argument = parseExpression(0);
+                    if (lexer->currentToken.type != TokenType::CloseParen) {
+                        std::cerr << "Expected closing ) after arguments, got \"" << lexer->currentToken.value << "\" instead." << std::endl;
+                        std::exit(1);
+                    }
+                } else {
+                    // parse other expressions starting with an identifier
+                }
+            }
             case TokenType::Func:
             {
                 lexer->next();
@@ -33,7 +48,6 @@ std::string Parser::parseTerm() {
                 // function body
                 std::string body = parseExpression(0);
                 return "(funcdef, " + name + ", " + body + ")";
-                
             }
             case TokenType::OpenBrace:
             {
