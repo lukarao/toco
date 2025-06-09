@@ -35,6 +35,20 @@ std::string Parser::parseTerm() {
                 return "(funcdef, " + name + ", " + body + ")";
                 
             }
+            case TokenType::OpenBrace:
+            {
+                lexer->next();
+                std::string content = "(block, ";
+                while (lexer->currentToken.type != TokenType::CloseBrace) {
+                    if (lexer->currentToken.type == TokenType::Eof) {
+                        std::cerr << "Missing closing } in block." << std::endl;
+                        std::exit(1);
+                    }
+                    content += parseExpression(0) + ", ";
+                    lexer->next();
+                }
+                return content;
+            }
             case TokenType::Import:
                 lexer->next();
                 while (lexer->currentToken.type != TokenType::End) {
@@ -50,6 +64,9 @@ std::string Parser::parseTerm() {
 }
 
 std::string Parser::parseExpression(int precedence) {
+    while (lexer->currentToken.type == TokenType::End) {
+        lexer->next();
+    }
     std::string left = parseTerm();
     Token op = lexer->currentToken;
     while (precedence < getPrecedence(op)) {
