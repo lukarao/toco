@@ -35,8 +35,23 @@ void Parser::parse() {
     while (lexer->currentToken.type != TokenType::Eof) {
         switch (lexer->currentToken.type) {
             case TokenType::Func:
-                // func def
+            {
+                lexer->next();
+                // function name
+                std::string name;
+                if (lexer->currentToken.type == TokenType::Identifier) {
+                    name = lexer->currentToken.value;
+                    lexer->next();
+                } else {
+                    std::cerr << "Expected Identifier after Func, got \"" << lexer->currentToken.value << "\" instead.";
+                    std::exit(1);
+                }
+                // (parse parameters)
+                // function body
+                Expression body = parseExpression(0);
+                // builder->funcdef(name, body)
                 break;
+            }
             case TokenType::Import:
                 lexer->next();
                 while (lexer->currentToken.type != TokenType::End) {
